@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/intervalText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="viewStart"
+                android:textColor="@color/intervalText"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/roomText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/material_dynamic_primary70"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/material_dynamic_secondary10"
+                    android:textSize="26sp"
+                    android:padding="2sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </LinearLayout>
+
+        <TextView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="30sp"
+            android:textColor="@color/detailLabel"
+            android:id="@+id/namesText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:paddingEnd="4dp"
+                android:textColor="@color/detailLabel"
+                android:id="@+id/lecturersLabel"
+                android:text="@string/lecturers_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                app:layout_constraintStart_toEndOf="@id/lecturersLabel"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="?android:textColorSecondary"
+                android:id="@+id/lecturersText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:paddingEnd="4dp"
+                android:textColor="@color/detailLabel"
+                android:id="@+id/codesLabel"
+                android:text="@string/codes_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                app:layout_constraintStart_toEndOf="@id/codesLabel"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="?android:textColorSecondary"
+                android:id="@+id/codesText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:paddingEnd="4dp"
+                android:textColor="@color/detailLabel"
+                android:id="@+id/buildingLabel"
+                android:text="@string/building_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                app:layout_constraintStart_toEndOf="@id/buildingLabel"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="?android:textColorSecondary"
+                android:id="@+id/buildingText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:paddingEnd="4dp"
+                android:textColor="@color/detailLabel"
+                android:id="@+id/groupsLabel"
+                android:text="@string/groups_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                app:layout_constraintStart_toEndOf="@id/groupsLabel"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="?android:textColorSecondary"
+                android:id="@+id/groupsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:paddingEnd="4dp"
+                android:textColor="@color/detailLabel"
+                android:id="@+id/typeLabel"
+                android:text="@string/type_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                app:layout_constraintStart_toEndOf="@id/typeLabel"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="?android:textColorSecondary"
+                android:id="@+id/typeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:paddingEnd="4dp"
+                android:textColor="@color/detailLabel"
+                android:id="@+id/studentsCountLabel"
+                android:text="@string/students_count_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                app:layout_constraintStart_toEndOf="@id/studentsCountLabel"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="?android:textColorSecondary"
+                android:id="@+id/studentsCountText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

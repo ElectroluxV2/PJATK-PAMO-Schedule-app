@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lecturers_label">"Wykładowcy: "</string>
+    <string name="codes_label">"Kody przedmiotów: "</string>
+    <string name="title_calendar">Kalendarz</string>
+    <string name="title_settings">Ustawienia</string>
+    <string name="title_today">Dziś</string>
+    <string name="type_label">"Typ zajęć: "</string>
+    <string name="building_label">"Budynek: "</string>
+    <string name="groups_label">"Grupy: "</string>
+    <string name="students_count_label">"Liczba studentów: "</string>
+</resources>

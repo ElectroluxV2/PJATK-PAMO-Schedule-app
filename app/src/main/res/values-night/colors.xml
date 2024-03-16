@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="intervalText">@color/material_dynamic_primary70</color>
+    <color name="detailLabel">@color/material_dynamic_primary90</color>
+</resources>
