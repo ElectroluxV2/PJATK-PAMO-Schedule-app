@@ -11,13 +11,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
-import androidx.recyclerview.widget.RecyclerView.Orientation
 import kotlinx.coroutines.launch
 import pl.edu.pjwstk.pamo.schedule.databinding.FragmentTodayBinding
+import pl.edu.pjwstk.pamo.schedule.ui.AppViewModel
 
 class TodayFragment: Fragment() {
-    val viewModel: TodayViewModel by viewModels()
+    private val viewModel: AppViewModel by viewModels({ requireActivity() })
     private var _binding: FragmentTodayBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.
@@ -37,8 +36,8 @@ class TodayFragment: Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect {
-                    subjectRecyclerView.adapter = SubjectsAdapter(it.subjects.toTypedArray())
+                viewModel.subjectsForSelectedDay.collect {
+                    subjectRecyclerView.adapter = SubjectsAdapter(it.toTypedArray())
                 }
             }
         }

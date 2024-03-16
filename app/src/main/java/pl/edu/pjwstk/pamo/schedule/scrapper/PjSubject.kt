@@ -6,7 +6,7 @@ import java.io.IOException
 @JvmRecord
 data class PjSubject(val eventId: String, val controlId: String, val color: String, val text: String, val httpClient: OkHttpClient, val userAgent: String, val selectedDateForm: HashMap<String, String>) {
     @Throws(IOException::class, InterruptedException::class)
-    fun loadDetails(): Map<String, String> {
+    fun loadDetails(): Map<PjSubjectDetailKeys, String> {
         val formWithSubjectSelection = HashMap(selectedDateForm)
 
         formWithSubjectSelection["ScriptManager1"] = "RadToolTipManager1RTMPanel|RadToolTipManager1RTMPanel"

@@ -93,8 +93,8 @@ internal object PjParser {
         return subjects
     }
 
-    fun parsePopoutForSubjectDetails(popout: String): Map<String, String> {
-        val details = HashMap<String, String>()
+    fun parsePopoutForSubjectDetails(popout: String): Map<PjSubjectDetailKeys, String> {
+        val details = HashMap<PjSubjectDetailKeys, String>()
         var pivot = 0
 
         while (pivot < popout.length) {
@@ -120,7 +120,8 @@ internal object PjParser {
             val key = id.substring(id.lastIndexOf("_") + 1, id.lastIndexOf("Label"))
             val value = text.trim { it <= ' ' }
 
-            details[key] = value
+            val enumKey = PjSubjectDetailKeys.fromKey(key)
+            details[enumKey] = value
         }
 
         return details

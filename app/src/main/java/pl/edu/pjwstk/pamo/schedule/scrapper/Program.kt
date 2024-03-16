@@ -27,7 +27,7 @@ object Program {
         println("Total: " + subjects.size + ", " + Duration.between(start, Instant.now()))
     }
 
-    fun loadSubjects(scrapper: PjScheduleScrapper, date: LocalDate): List<PjSubject?>? {
+    fun loadSubjects(scrapper: PjScheduleScrapper, date: LocalDate): List<PjSubject> {
         val subjects: List<PjSubject?>?
         try {
             subjects = scrapper.loadSubjects(date)
@@ -40,7 +40,7 @@ object Program {
         for (subject in subjects) {
             println(subject.text + " " + subject.color + " (" + counter.incrementAndGet() + ")")
 
-            val details: Map<String, String>?
+            val details: Map<PjSubjectDetailKeys, String>
             try {
                 details = subject.loadDetails()
             } catch (e: IOException) {
@@ -48,6 +48,7 @@ object Program {
             } catch (e: InterruptedException) {
                 throw RuntimeException(e)
             }
+
             for ((key, value) in details) {
                 println("-\t$key: $value")
             }
