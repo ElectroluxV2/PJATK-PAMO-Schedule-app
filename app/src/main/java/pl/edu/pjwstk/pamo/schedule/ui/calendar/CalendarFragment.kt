@@ -37,6 +37,7 @@ class CalendarFragment : Fragment() {
             val firstDayOfWeek = firstDayOfWeekFromLocale()
             calendarView.setup(startDate, endDate, firstDayOfWeek)
             calendarView.scrollToWeek(currentDate)
+
             val daysOfWeek = daysOfWeek()
 
             val titlesContainer = root.findViewById<ViewGroup>(R.id.titlesContainer)
