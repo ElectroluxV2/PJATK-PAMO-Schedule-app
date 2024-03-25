@@ -7,35 +7,42 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.kizitonwose.calendar.core.CalendarDay
+import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
+import com.kizitonwose.calendar.view.CalendarView
+import com.kizitonwose.calendar.view.MonthDayBinder
 import pl.edu.pjwstk.pamo.schedule.databinding.FragmentCalendarBinding
+import pl.edu.pjwstk.pamo.schedule.R
+import java.time.YearMonth
 
 class CalendarFragment : Fragment() {
-
-    private var _binding: FragmentCalendarBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
+        override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val calendarViewModel = ViewModelProvider(requireActivity()).get(CalendarViewModel::class.java)
+    ): View? {
+        val root = inflater.inflate(R.layout.fragment_calendar, container, false)
 
-        _binding = FragmentCalendarBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        val calendarView = root.findViewById<CalendarView>(R.id.calendarView)
+        val dayViewResource = R.layout.calendar_day_layout
 
-        val textView: TextView = binding.textCalendar
-        calendarViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        // calendar config
+        val currentMonth = YearMonth.now()
+        val startMonth = currentMonth.minusMonths(100)
+        val endMonth = currentMonth.plusMonths(100)
+        val firstDayOfWeek = firstDayOfWeekFromLocale()
+        calendarView.setup(startMonth, endMonth, firstDayOfWeek)
+        calendarView.scrollToMonth(currentMonth)
+
+
+        calendarView.dayBinder = object : MonthDayBinder<CalendarViewModel> {
+            override fun create(view: View) = CalendarViewModel(view)
+
+            override fun bind(container: CalendarViewModel, data: CalendarDay) {
+                container.textView.text = data.date.dayOfMonth.toString()
+            }
         }
-        return root
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        return root
     }
 }

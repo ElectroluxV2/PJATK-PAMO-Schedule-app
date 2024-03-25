@@ -1,13 +1,15 @@
 package pl.edu.pjwstk.pamo.schedule.ui.calendar
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.view.View
+import android.widget.TextView
+import pl.edu.pjwstk.pamo.schedule.R
+import com.kizitonwose.calendar.core.CalendarDay
+import com.kizitonwose.calendar.view.MonthDayBinder
+import com.kizitonwose.calendar.view.ViewContainer
 
-class CalendarViewModel : ViewModel() {
+class CalendarViewModel(view: View) : ViewContainer(view) {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is calendar Fragment"
-    }
-    val text: LiveData<String> = _text
+    val textView = view.findViewById<TextView>(R.id.calendarDayText)
+
+
 }

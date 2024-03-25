@@ -40,6 +40,9 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.0"
+    }
 }
 
 dependencies {
@@ -58,4 +61,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation("androidx.activity:activity-compose:1.8.2")
+    implementation("androidx.core:core-ktx:1.12.0")
+    //calendar
+    implementation("com.kizitonwose.calendar:compose:2.4.1")
+    implementation ("com.kizitonwose.calendar:view:2.5.0")
 }
