@@ -25,7 +25,6 @@ import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
 class CalendarFragment : Fragment() {
-    private var selectedDate: LocalDate? = null
     private val today = LocalDate.now()
 
     private lateinit var binding: FragmentCalendarBinding
@@ -65,14 +64,12 @@ class CalendarFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.subjects.collect { subjects ->
-                    val dateFromArg = arguments?.getString("date")
                     arguments?.clear()
-                    val requestedDate = if (dateFromArg == null) LocalDate.now()
-                    else LocalDate.parse(dateFromArg, DateTimeFormatter.ISO_LOCAL_DATE)
-
-                    subjects[requestedDate] ?: emptyList()
-                    datesToHighlight.clear()
-                    datesToHighlight.addAll(subjects.keys)
+                    subjects.forEach { (date, subjectList) ->
+                        if (subjectList.isNotEmpty()) {
+                            datesToHighlight.add(date)
+                        }
+                    }
 
                     // Notify the calendar to refresh
                     binding.calendarView.notifyCalendarChanged()
