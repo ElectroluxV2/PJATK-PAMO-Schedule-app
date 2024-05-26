@@ -6,11 +6,16 @@ import android.view.*
 import android.widget.TextView
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.Navigation
 import com.kizitonwose.calendar.core.*
 import com.kizitonwose.calendar.view.MonthDayBinder
 import com.kizitonwose.calendar.view.MonthHeaderFooterBinder
 import com.kizitonwose.calendar.view.ViewContainer
+import kotlinx.coroutines.launch
+import pl.edu.pjwstk.pamo.schedule.MainActivity
 import pl.edu.pjwstk.pamo.schedule.R
 import pl.edu.pjwstk.pamo.schedule.databinding.CalendarDayLayoutBinding
 import pl.edu.pjwstk.pamo.schedule.databinding.CalendarHeaderBinding
@@ -25,6 +30,8 @@ class CalendarFragment : Fragment() {
 
     private lateinit var binding: FragmentCalendarBinding
 
+    private val datesToHighlight = mutableListOf<LocalDate>()
+    private val viewModel get() = (activity as MainActivity).viewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,8 +59,27 @@ class CalendarFragment : Fragment() {
             YearMonth.now().plusMonths(100),
             daysOfWeek.first(),
         )
+        collectViewModelData()
     }
+    private fun collectViewModelData() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.subjects.collect { subjects ->
+                    val dateFromArg = arguments?.getString("date")
+                    arguments?.clear()
+                    val requestedDate = if (dateFromArg == null) LocalDate.now()
+                    else LocalDate.parse(dateFromArg, DateTimeFormatter.ISO_LOCAL_DATE)
 
+                    subjects[requestedDate] ?: emptyList()
+                    datesToHighlight.clear()
+                    datesToHighlight.addAll(subjects.keys)
+
+                    // Notify the calendar to refresh
+                    binding.calendarView.notifyCalendarChanged()
+                }
+            }
+        }
+    }
 
 
     private fun configureBinders() {
@@ -86,18 +112,16 @@ class CalendarFragment : Fragment() {
                 if (data.position == DayPosition.MonthDate) {
                     textView.visibility = View.VISIBLE
                     when (data.date) {
-                        selectedDate -> {
-                            textView.setTextColor(resources.getColor(R.color.white, null))
-                            textView.setBackgroundResource(R.drawable.selected_bg)
-                        }
                         today -> {
                             textView.setTextColor(resources.getColor(R.color.red, null))
                             textView.setBackgroundResource(R.drawable.selected_bg)
-                            textView.background = null
                         }
                         else -> {
                             textView.setTextColor(resources.getColor(R.color.detailLabel, null))
                             textView.background = null
+                            if (datesToHighlight.contains(data.date)) {
+                                textView.setBackgroundResource(R.drawable.selected_lecturers_day_bg) // Assuming you have a drawable for highlighted dates
+                            }
                         }
                     }
                 } else {
