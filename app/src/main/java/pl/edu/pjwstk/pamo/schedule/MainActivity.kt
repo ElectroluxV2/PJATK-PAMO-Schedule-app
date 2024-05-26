@@ -6,9 +6,13 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import pl.edu.pjwstk.pamo.schedule.databinding.ActivityMainBinding
 import pl.edu.pjwstk.pamo.schedule.model.PjatkSubject
@@ -35,7 +39,12 @@ class MainActivity : AppCompatActivity() {
 
         navView.setupWithNavController(navController)
 
-        loadData()
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                loadData()
+            }
+        }
     }
 
     public fun loadData() {
