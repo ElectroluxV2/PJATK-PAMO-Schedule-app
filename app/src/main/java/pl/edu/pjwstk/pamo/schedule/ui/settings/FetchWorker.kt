@@ -1,6 +1,8 @@
 package pl.edu.pjwstk.pamo.schedule.ui.settings
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.work.Data
 import androidx.work.Worker
@@ -12,11 +14,18 @@ import pl.edu.pjwstk.pamo.schedule.model.SubjectMapper
 import pl.edu.pjwstk.pamo.schedule.scrapper.PjScheduleScrapper
 import pl.edu.pjwstk.pamo.schedule.scrapper.PjScheduleScrapperBuilder
 import java.time.LocalDate
+import java.util.Calendar
 import java.util.stream.Collectors
 import kotlin.time.measureTime
 
+
 class FetchWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result {
+
+
+        val begin = LocalDate.ofYearDay(2024, 1)
+        val end = LocalDate.ofYearDay(2024, 320)
+
         val forDay = LocalDate.now();
 
         val scrapper: PjScheduleScrapper = PjScheduleScrapperBuilder.forCampus("Gdańsk")
@@ -34,12 +43,17 @@ class FetchWorker(context: Context, params: WorkerParameters) : Worker(context, 
 
             mapped = withDetails
                 .map { SubjectMapper.toModel(it) }
-                .take(20)
         }
+
+        val sp: SharedPreferences = this.applicationContext.getSharedPreferences("test", MODE_PRIVATE)
+        val editor = sp.edit()
+
+        editor.putString("data", Json.encodeToString(mapped))
+        editor.apply()
 
         val output = Data
             .Builder()
-            .putString("test", Json.encodeToString(mapped))
+            .putString("state", "done")
             .build()
 
         Log.i("FetchWorker", "Loaded %d subjects in %d seconds".format(mapped.size, elapsed.inWholeSeconds))

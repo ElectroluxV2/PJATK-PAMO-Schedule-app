@@ -12,15 +12,16 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
+import pl.edu.pjwstk.pamo.schedule.MainActivity
 import pl.edu.pjwstk.pamo.schedule.databinding.FragmentTodayBinding
 import pl.edu.pjwstk.pamo.schedule.ui.AppViewModel
 
 class TodayFragment: Fragment() {
-    private val viewModel: AppViewModel by viewModels({ requireActivity() })
     private var _binding: FragmentTodayBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
+    private val viewModel get() = (activity as MainActivity).viewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,

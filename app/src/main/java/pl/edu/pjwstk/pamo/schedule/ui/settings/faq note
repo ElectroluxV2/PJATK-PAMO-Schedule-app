@@ -1,9 +1,0 @@
-var div = document.getElementById('ctl00_ContentPlaceHolder1_DedykowanyPlanStudenta_GrupyStudentaListBox');
-
-    var spans = div.querySelectorAll('.rlbList .rlbText');
-    var values = [];
-
-    spans.forEach(function(span) {
-        values.push(span.textContent);
-    });
-    console.log(values);
