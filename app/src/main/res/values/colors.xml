@@ -3,6 +3,11 @@
     <color name="transparent">@android:color/transparent</color>
     <color name="intervalText">@color/material_dynamic_primary10</color>
     <color name="detailLabel">@color/material_dynamic_primary30</color>
+    <color name="black">@android:color/background_dark</color>
+    <color name="example_2_white">#FFFFFF</color>
+    <color name="example_2_black">#302C2C</color>
+    <color name="example_2_grey">#816866</color>
+    <color name="example_2_red">#FF1100</color>
 
     <integer-array name="progressColors">
         <item>@color/material_dynamic_primary60</item>
