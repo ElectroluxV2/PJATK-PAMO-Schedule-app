@@ -15,7 +15,14 @@ enum class PjSubjectDetailKeys(val key: String) {
     BEGIN_TIME("GodzRozp"),
     END_TIME("GodzZakon"),
     CODES("KodPrzedmiotu"),
-    LECTURERS("Dydaktycy");
+    LECTURERS("Dydaktycy"),
+    RESERVATION_TITLE("TytulRezerwacji"),
+    RESERVATION_DESCRIPTION("Opis"),
+    RESERVATION_AUTHOR("OsobaRezerwujaca"),
+    RESERVATION_NAMES("NazwyPrzedmiotow"),
+    RESERVATION_CODES("KodyPrzedmiotow"),
+    RESERVATION_GROUPS("GrupyStudenckie"),
+    RESERVATION_TYPE("TypRezerwacji");
 
     companion object {
         fun fromKey(key: String): PjSubjectDetailKeys = when (key) {
@@ -32,7 +39,14 @@ enum class PjSubjectDetailKeys(val key: String) {
             END_TIME.key -> END_TIME
             CODES.key -> CODES
             LECTURERS.key -> LECTURERS
-            else -> throw IllegalArgumentException()
+            RESERVATION_TITLE.key -> RESERVATION_TITLE
+            RESERVATION_DESCRIPTION.key -> RESERVATION_DESCRIPTION
+            RESERVATION_AUTHOR.key -> RESERVATION_AUTHOR
+            RESERVATION_TYPE.key -> RESERVATION_TYPE
+            RESERVATION_CODES.key -> RESERVATION_CODES
+            RESERVATION_NAMES.key -> RESERVATION_NAMES
+            RESERVATION_GROUPS.key -> RESERVATION_GROUPS
+            else -> throw IllegalArgumentException("Tried: %s".format(key))
         }
     }
 }

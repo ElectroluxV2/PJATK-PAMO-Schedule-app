@@ -5,12 +5,25 @@
     tools:context=".ui.settings.SettingsFragment"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="bottom|center"
+    android:padding="16dp">
 
-    <com.google.android.material.textfield.TextInputLayout
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_weight="0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Date from">
+        android:textColor="@color/intervalText"
+        android:textSize="26sp"
+        android:text="@string/dataScrapperSettings"
+        android:layout_marginBottom="8dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_weight="0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:hint="@string/dateFrom">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -20,9 +33,11 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:layout_weight="0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Date to">
+        android:layout_marginBottom="8dp"
+        android:hint="@string/dateTo">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -31,13 +46,46 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_weight="0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:placeholderText="GIn L.2 - 1w, GGn L.2 - 22c"
+        android:hint="@string/groups">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:id="@+id/groups"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:id="@+id/logs" />
+    </ScrollView>
+
     <Button
+        android:layout_weight="0"
         android:id="@+id/loadButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Load"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginBottom="8dp"
+        android:text="@string/reloadData" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:layout_weight="0"
+        android:id="@+id/progressIndicator"
+        android:indeterminate="false"
+        app:indeterminateAnimationType="contiguous"
+        android:layout_width="match_parent"
+        app:indicatorColor="@array/progressColors"
+        android:layout_height="wrap_content" />
 </LinearLayout>

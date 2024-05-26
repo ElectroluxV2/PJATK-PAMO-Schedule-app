@@ -14,6 +14,8 @@ import pl.edu.pjwstk.pamo.schedule.databinding.ActivityMainBinding
 import pl.edu.pjwstk.pamo.schedule.model.PjatkSubject
 import pl.edu.pjwstk.pamo.schedule.ui.AppViewModel
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.stream.Collectors
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,13 +39,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     public fun loadData() {
-        val sp = applicationContext.getSharedPreferences("test", Context.MODE_PRIVATE)
-        val json: String = sp.getString("data", "[]").orEmpty()
+        val format = DateTimeFormatter.ISO_LOCAL_DATE
+        val sp = applicationContext.getSharedPreferences("pjpl_events", Context.MODE_PRIVATE)
 
-        val list = Json.decodeFromString<List<PjatkSubject>>(json)
+        val subjectsMap = sp.all.entries
+            .filter { it.key != null && it.value != null && it.key is String && it.value is String }
+            .associateBy({ LocalDate.parse(it.key, format) }, { Json.decodeFromString<List<PjatkSubject>>(it.value as String) })
 
-        Log.w("TEST", "${list.size}")
+        Log.w("DATA LOAD", "Loaded ${subjectsMap.size} days from SharedPreferences")
 
-        viewModel.setSubjects(mapOf(Pair(LocalDate.now(), list)))
+        viewModel.setSubjects(subjectsMap)
     }
 }

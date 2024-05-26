@@ -9,4 +9,9 @@
     <string name="building_label">Building: </string>
     <string name="groups_label">Groups: </string>
     <string name="students_count_label">Students: </string>
+    <string name="dateFrom">Date from</string>
+    <string name="dateTo">Date to</string>
+    <string name="reloadData">Reload data</string>
+    <string name="dataScrapperSettings">Data scrapper settings</string>
+    <string name="groups">Groups filter</string>
 </resources>

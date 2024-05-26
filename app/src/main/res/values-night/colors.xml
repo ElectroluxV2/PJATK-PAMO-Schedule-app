@@ -2,4 +2,10 @@
 <resources>
     <color name="intervalText">@color/material_dynamic_primary70</color>
     <color name="detailLabel">@color/material_dynamic_primary90</color>
+
+    <integer-array name="progressColors">
+        <item>@color/material_dynamic_primary10</item>
+        <item>@color/material_dynamic_primary30</item>
+        <item>@color/material_dynamic_primary50</item>
+    </integer-array>
 </resources>

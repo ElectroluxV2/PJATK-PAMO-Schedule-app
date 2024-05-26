@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.WorkerParameters
@@ -14,49 +15,71 @@ import pl.edu.pjwstk.pamo.schedule.model.SubjectMapper
 import pl.edu.pjwstk.pamo.schedule.scrapper.PjScheduleScrapper
 import pl.edu.pjwstk.pamo.schedule.scrapper.PjScheduleScrapperBuilder
 import java.time.LocalDate
-import java.util.Calendar
+import java.time.format.DateTimeFormatter
 import java.util.stream.Collectors
 import kotlin.time.measureTime
 
 
 class FetchWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
+
+    companion object {
+        val logs = MutableLiveData(emptyList<String>())
+        val running = MutableLiveData(false)
+    }
+
     override fun doWork(): Result {
+        running.postValue(true)
+        val from = inputData.getString("from")!!
+        val to = inputData.getString("to")!!
 
+        val format = DateTimeFormatter.ISO_LOCAL_DATE
 
-        val begin = LocalDate.ofYearDay(2024, 1)
-        val end = LocalDate.ofYearDay(2024, 320)
-
-        val forDay = LocalDate.now();
+        val fromDate = LocalDate.parse(from, format)
+        val toDate = LocalDate.parse(to, format)
 
         val scrapper: PjScheduleScrapper = PjScheduleScrapperBuilder.forCampus("Gdańsk")
-        Log.i("FetchWorker", "Created scrapper for Gdańsk, loading subjects for %s".format(forDay))
+        val entry = "Created scrapper for Gdańsk, loading subjects for %s - %s".format(from, to)
+        logs.postValue(logs.value!!.plus(entry))
 
-        var mapped: List<PjatkSubject>
+        Log.i("FetchWorker", entry)
 
-        val elapsed = measureTime {
-            val subjects = scrapper.loadSubjects(forDay)
-
-            val withDetails = subjects
-                .parallelStream()
-                .map { Pair(it, it.loadDetails()) }
-                .collect(Collectors.toList())
-
-            mapped = withDetails
-                .map { SubjectMapper.toModel(it) }
-        }
-
-        val sp: SharedPreferences = this.applicationContext.getSharedPreferences("test", MODE_PRIVATE)
+        val sp: SharedPreferences = this.applicationContext.getSharedPreferences("pjpl_events", MODE_PRIVATE)
         val editor = sp.edit()
 
-        editor.putString("data", Json.encodeToString(mapped))
+        var date: LocalDate = fromDate
+        while (date.isBefore(toDate)) {
+            var mapped: List<PjatkSubject>
+
+            val elapsed = measureTime {
+                val subjects = scrapper.loadSubjects(date)
+
+                val withDetails = subjects
+                    .parallelStream()
+                    .map { Pair(it, it.loadDetails()) }
+                    .collect(Collectors.toList())
+
+                mapped = withDetails.mapNotNull { SubjectMapper.toModel(it) }
+
+                editor.putString(date.format(format), Json.encodeToString(mapped))
+            }
+
+            val innerEntry = "Loaded %d subjects in %d seconds for date %s".format(mapped.size, elapsed.inWholeSeconds, date)
+
+            logs.postValue(logs.value!!.plus(innerEntry))
+
+
+            Log.i("FetchWorker", innerEntry)
+            date = date.plusDays(1)
+        }
+
         editor.apply()
+
+        running.postValue(false)
 
         val output = Data
             .Builder()
             .putString("state", "done")
             .build()
-
-        Log.i("FetchWorker", "Loaded %d subjects in %d seconds".format(mapped.size, elapsed.inWholeSeconds))
 
         return Result.success(output)
     }
