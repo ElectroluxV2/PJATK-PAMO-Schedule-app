@@ -42,7 +42,7 @@ class CalendarFragment : Fragment() {
         binding.legendLayout.root.children.forEachIndexed { index, child ->
             (child as TextView).apply {
                 text = daysOfWeek[index].name.first().toString()
-                setTextColor(resources.getColor(R.color.example_2_white, null))
+                setTextColor(resources.getColor(R.color.white, null))
             }
         }
 
@@ -65,18 +65,7 @@ class CalendarFragment : Fragment() {
 
             init {
                 textView.setOnClickListener {
-/*                    if (day.position == DayPosition.MonthDate) {
-                        if (selectedDate == day.date) {
-                            selectedDate = null
-                            calendarView.notifyDayChanged(day)
-                        } else {
-                            val oldDate = selectedDate
-                            selectedDate = day.date
-                            calendarView.notifyDateChanged(day.date)
-                            oldDate?.let { calendarView.notifyDateChanged(oldDate) }
-                        }
-                        menuItem.isVisible = selectedDate != null
-                    }*/
+
                     Log.w("DAY CLICK", day.date.toString())
 
                     val bundle = Bundle()
@@ -98,15 +87,16 @@ class CalendarFragment : Fragment() {
                     textView.visibility = View.VISIBLE
                     when (data.date) {
                         selectedDate -> {
-                            textView.setTextColor(resources.getColor(R.color.example_2_white, null))
-                            textView.setBackgroundResource(R.drawable.example_2_selected_bg)
+                            textView.setTextColor(resources.getColor(R.color.white, null))
+                            textView.setBackgroundResource(R.drawable.selected_bg)
                         }
                         today -> {
-                            textView.setTextColor(resources.getColor(R.color.example_2_red, null))
+                            textView.setTextColor(resources.getColor(R.color.red, null))
+                            textView.setBackgroundResource(R.drawable.selected_bg)
                             textView.background = null
                         }
                         else -> {
-                            textView.setTextColor(resources.getColor(R.color.example_2_black, null))
+                            textView.setTextColor(resources.getColor(R.color.detailLabel, null))
                             textView.background = null
                         }
                     }
