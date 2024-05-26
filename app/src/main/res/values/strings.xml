@@ -14,4 +14,5 @@
     <string name="reloadData">Reload data</string>
     <string name="dataScrapperSettings">Data scrapper settings</string>
     <string name="groups">Groups regex</string>
+    <string name="noData">No data for</string>
 </resources>

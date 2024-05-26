@@ -15,7 +15,12 @@
         android:id="@+id/navigation_today"
         android:name="pl.edu.pjwstk.pamo.schedule.ui.today.TodayFragment"
         android:label="@string/title_today"
-        tools:layout="@layout/fragment_today" />
+        tools:layout="@layout/fragment_today" >
+        <argument
+            android:name="date"
+            app:argType="string"
+            android:defaultValue="@null" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_settings"

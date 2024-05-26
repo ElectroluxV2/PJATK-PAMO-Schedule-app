@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -19,7 +18,6 @@ import pl.edu.pjwstk.pamo.schedule.model.PjatkSubject
 import pl.edu.pjwstk.pamo.schedule.ui.AppViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.stream.Collectors
 
 class MainActivity : AppCompatActivity() {
 
