@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -23,6 +24,7 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.google.android.material.progressindicator.LinearProgressIndicator
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import pl.edu.pjwstk.pamo.schedule.MainActivity
 import pl.edu.pjwstk.pamo.schedule.databinding.FragmentSettingsBinding
@@ -65,6 +67,23 @@ class SettingsFragment : Fragment() {
                 FetchWorker.logs.asFlow().collect {
                     binding.logs.text = it.joinToString("\n")
                 }
+            }
+        }
+
+        val sp = requireContext().getSharedPreferences("pjpl_settings", Context.MODE_PRIVATE)
+
+        binding.groups.doAfterTextChanged {
+            try {
+                (activity as MainActivity).viewModel.setGroupsRegex(it.toString())
+                sp.edit().putString("regex", it.toString()).apply()
+            } catch (e: Exception) {
+                Snackbar.make(binding.root, "Invalid regex: %s".format(e.message), Snackbar.LENGTH_LONG).show()
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                binding.groups.setText(sp.getString("regex", null) ?: ".*")
             }
         }
 

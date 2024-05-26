@@ -51,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        app:placeholderText="GIn L.2 - 1w, GGn L.2 - 22c"
+        app:placeholderText=".*"
         android:hint="@string/groups">
 
         <com.google.android.material.textfield.TextInputEditText

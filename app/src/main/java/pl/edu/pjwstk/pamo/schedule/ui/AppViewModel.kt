@@ -11,10 +11,24 @@ class AppViewModel : ViewModel() {
     private val _subjectsForSelectedDay = MutableLiveData(emptyList<PjatkSubject>())
     val subjectsForSelectedDay = _subjectsForSelectedDay.asFlow()
 
+    private var groupsRegex = Regex(".*")
+
     fun setSubjects(subjects: Map<LocalDate, List<PjatkSubject>>) {
         _subjects.clear();
         _subjects.putAll(subjects);
 
+        calculateTodaySubjects()
+    }
+
+    fun setGroupsRegex(regex: String) {
+        groupsRegex = Regex(regex)
+
+        calculateTodaySubjects()
+    }
+
+    private fun calculateTodaySubjects() {
         _subjectsForSelectedDay.value = _subjects[LocalDate.now()]
+            .orEmpty()
+            .filter { groupsRegex.matches(it.groups) }
     }
 }

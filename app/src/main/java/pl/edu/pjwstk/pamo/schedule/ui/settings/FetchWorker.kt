@@ -75,6 +75,7 @@ class FetchWorker(context: Context, params: WorkerParameters) : Worker(context, 
         editor.apply()
 
         running.postValue(false)
+        logs.postValue(logs.value!!.plus("Done scrapping"))
 
         val output = Data
             .Builder()
