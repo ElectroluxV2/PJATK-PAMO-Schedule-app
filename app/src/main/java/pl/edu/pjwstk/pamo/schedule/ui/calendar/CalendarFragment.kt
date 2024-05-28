@@ -53,11 +53,13 @@ class CalendarFragment : Fragment() {
         }
 
         configureBinders()
+        val currentMonth = YearMonth.now()
         binding.calendarView.setup(
-            YearMonth.now(),
-            YearMonth.now().plusMonths(100),
+            currentMonth.minusMonths(12),
+            YearMonth.now().plusMonths(24),
             daysOfWeek.first(),
         )
+        binding.calendarView.scrollToMonth(currentMonth)
         collectViewModelData()
     }
     private fun collectViewModelData() {
