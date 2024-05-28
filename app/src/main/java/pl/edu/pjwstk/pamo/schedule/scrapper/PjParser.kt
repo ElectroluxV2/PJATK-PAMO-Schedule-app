@@ -2,15 +2,25 @@ package pl.edu.pjwstk.pamo.schedule.scrapper
 
 import okhttp3.OkHttpClient
 
-
+/**
+ * Utility object for parsing HTML to extract subjects and their details.
+ */
 internal object PjParser {
+    /**
+     * Parses HTML to extract a list of PjSubject objects.
+     *
+     * @param html The HTML content to parse.
+     * @param httpClient The OkHttpClient instance to use for HTTP requests.
+     * @param userAgent The user agent string to include in HTTP requests.
+     * @param selectedDateForm A map containing form data for the selected date.
+     * @return A list of PjSubject objects extracted from the HTML content.
+     */
     fun parseHtmlForSubjects(html: String, httpClient: OkHttpClient, userAgent: String, selectedDateForm: HashMap<String, String>): List<PjSubject> {
         val subjects = ArrayList<PjSubject>()
 
         var pivot = 0
         while (pivot < html.length) {
             // 1. Check for div with id
-
             val blockBegin = "<div id=\""
             val indexOfBlockBegin = html.indexOf(blockBegin, pivot)
             if (indexOfBlockBegin == -1) break
@@ -26,7 +36,7 @@ internal object PjParser {
             // 3. Extract title
             val titleAttributeBegin = "title=\""
             val indexOfTitleAttributeBegin = html.indexOf(titleAttributeBegin, pivot)
-            if (indexOfTitleAttributeBegin == -1 || indexOfTitleAttributeBegin > divEndIndex) continue  // .rsAptContent mush have style attribute
+            if (indexOfTitleAttributeBegin == -1 || indexOfTitleAttributeBegin > divEndIndex) continue  // .rsAptContent must have style attribute
 
             pivot = indexOfTitleAttributeBegin + titleAttributeBegin.length
             val endOfTitleAttribute = html.indexOf("\"", pivot)
@@ -56,7 +66,7 @@ internal object PjParser {
             // 7. Extract style value from .rsAptContent
             val styleAttributeBegin = "style=\""
             val indexOfStyleAttributeBegin = html.indexOf(styleAttributeBegin, pivot)
-            if (indexOfStyleAttributeBegin == -1) continue  // .rsAptContent mush have style attribute
+            if (indexOfStyleAttributeBegin == -1) continue  // .rsAptContent must have style attribute
 
             pivot = indexOfStyleAttributeBegin + styleAttributeBegin.length
             val endOfStyleAttribute = html.indexOf("\"", pivot)
@@ -93,6 +103,12 @@ internal object PjParser {
         return subjects
     }
 
+    /**
+     * Parses HTML popout content to extract subject details.
+     *
+     * @param popout The HTML content of the popout to parse.
+     * @return A map containing the extracted subject details, with keys as [PjSubjectDetailKeys] and values as strings.
+     */
     fun parsePopoutForSubjectDetails(popout: String): Map<PjSubjectDetailKeys, String> {
         val details = HashMap<PjSubjectDetailKeys, String>()
         var pivot = 0
@@ -102,7 +118,6 @@ internal object PjParser {
             val indexOfSpanBegin = popout.indexOf(spanBegin, pivot)
             if (indexOfSpanBegin == -1) break
             pivot = indexOfSpanBegin + spanBegin.length
-
 
             val idBegin = "id=\""
             val indexOfIdBegin = popout.indexOf(idBegin, pivot)
@@ -127,6 +142,12 @@ internal object PjParser {
         return details
     }
 
+    /**
+     * Parses HTML to extract hidden input fields and their values.
+     *
+     * @param html The HTML content to parse.
+     * @return A map containing the names and values of the hidden input fields.
+     */
     fun parseHtmlForHiddenInputs(html: String): HashMap<String, String> {
         val inputs = HashMap<String, String>()
         var pivot = 0
@@ -136,11 +157,9 @@ internal object PjParser {
             val indexOfHiddenInput = html.indexOf(hiddenInputBegin, pivot)
             if (indexOfHiddenInput == -1) break // No more inputs to parse
 
-
             pivot = indexOfHiddenInput
 
             val inputNameAttributeBegin = "name=\""
-
             val indexOfNameAttributeBegin = html.indexOf(inputNameAttributeBegin, pivot)
             if (indexOfNameAttributeBegin == -1) continue
             val beginIndexOfNameAttribute = indexOfNameAttributeBegin + inputNameAttributeBegin.length
@@ -150,7 +169,6 @@ internal object PjParser {
             pivot = endIndexOfNameAttribute
 
             val inputValueAttributeBegin = "value=\""
-
             val indexOfValueAttributeBegin = html.indexOf(inputValueAttributeBegin, endIndexOfNameAttribute)
             if (indexOfValueAttributeBegin == -1) continue
             val beginIndexOfValueAttribute = indexOfValueAttributeBegin + inputValueAttributeBegin.length

@@ -24,14 +24,18 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
+/**
+ * A fragment that displays a calendar view with the ability to highlight specific dates and navigate to detailed views.
+ */
 class CalendarFragment : Fragment() {
     private val today = LocalDate.now()
-
     private lateinit var binding: FragmentCalendarBinding
-
     private val datesToHighlight = mutableListOf<LocalDate>()
     private val viewModel get() = (activity as MainActivity).viewModel
 
+    /**
+     * Called to inflate the fragment's view.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,6 +45,9 @@ class CalendarFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Called after the fragment's view has been created.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -62,6 +69,10 @@ class CalendarFragment : Fragment() {
         binding.calendarView.scrollToMonth(currentMonth)
         collectViewModelData()
     }
+
+    /**
+     * Collects data from the ViewModel and updates the calendar view.
+     */
     private fun collectViewModelData() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -80,7 +91,9 @@ class CalendarFragment : Fragment() {
         }
     }
 
-
+    /**
+     * Configures the binders for the calendar view to handle day and month bindings.
+     */
     private fun configureBinders() {
         val calendarView = binding.calendarView
 
@@ -90,11 +103,11 @@ class CalendarFragment : Fragment() {
 
             init {
                 textView.setOnClickListener {
-
                     Log.w("DAY CLICK", day.date.toString())
 
-                    val bundle = Bundle()
-                    bundle.putString("date", day.date.format(DateTimeFormatter.ISO_LOCAL_DATE))
+                    val bundle = Bundle().apply {
+                        putString("date", day.date.format(DateTimeFormatter.ISO_LOCAL_DATE))
+                    }
 
                     Navigation.findNavController(view).navigate(R.id.navigation_today, bundle)
                 }

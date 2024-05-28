@@ -31,6 +31,9 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
 
+/**
+ * A fragment that provides settings functionality for the application, including date selection and data fetching.
+ */
 class SettingsFragment : Fragment() {
     private val viewModel: SettingsViewModel by viewModels({ requireActivity() })
     private var _binding: FragmentSettingsBinding? = null
@@ -39,6 +42,9 @@ class SettingsFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    /**
+     * Called to inflate the fragment's view.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -116,11 +122,20 @@ class SettingsFragment : Fragment() {
         return root
     }
 
+    /**
+     * Called when the view is destroyed.
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
+    /**
+     * Extension function to transform an EditText into a date picker.
+     *
+     * @param context The context in which the date picker is shown.
+     * @param value The initial date to display in the date picker.
+     */
     fun EditText.transformIntoDatePicker(context: Context, value: LocalDate) {
         isFocusableInTouchMode = false
         isClickable = true

@@ -2,6 +2,11 @@ package pl.edu.pjwstk.pamo.schedule.scrapper
 
 import java.lang.IllegalArgumentException
 
+/**
+ * Enum class representing the keys used for subject details.
+ *
+ * @property key The string representation of the key.
+ */
 enum class PjSubjectDetailKeys(val key: String) {
     MS_TEAMS_CODE("KodMsTeams"),
     TYPE("TypZajec"),
@@ -25,6 +30,13 @@ enum class PjSubjectDetailKeys(val key: String) {
     RESERVATION_TYPE("TypRezerwacji");
 
     companion object {
+        /**
+         * Retrieves the [PjSubjectDetailKeys] corresponding to the given key string.
+         *
+         * @param key The string representation of the key.
+         * @return The corresponding [PjSubjectDetailKeys].
+         * @throws IllegalArgumentException If the key does not match any of the enum values.
+         */
         fun fromKey(key: String): PjSubjectDetailKeys = when (key) {
             MS_TEAMS_CODE.key -> MS_TEAMS_CODE
             TYPE.key -> TYPE
@@ -46,7 +58,7 @@ enum class PjSubjectDetailKeys(val key: String) {
             RESERVATION_CODES.key -> RESERVATION_CODES
             RESERVATION_NAMES.key -> RESERVATION_NAMES
             RESERVATION_GROUPS.key -> RESERVATION_GROUPS
-            else -> throw IllegalArgumentException("Tried: %s".format(key))
+            else -> throw IllegalArgumentException("Invalid key: %s".format(key))
         }
     }
 }

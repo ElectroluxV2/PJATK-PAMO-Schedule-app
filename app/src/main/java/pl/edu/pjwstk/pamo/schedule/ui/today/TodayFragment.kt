@@ -18,6 +18,9 @@ import pl.edu.pjwstk.pamo.schedule.databinding.FragmentTodayBinding
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+/**
+ * A fragment that displays the subjects for the selected day.
+ */
 class TodayFragment : Fragment() {
     private var _binding: FragmentTodayBinding? = null
 
@@ -25,6 +28,9 @@ class TodayFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel get() = (activity as MainActivity).viewModel
 
+    /**
+     * Called to inflate the fragment's view.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -48,7 +54,6 @@ class TodayFragment : Fragment() {
                     val requestedDate = if (dateFromArg == null) LocalDate.now()
                     else LocalDate.parse(dateFromArg, DateTimeFormatter.ISO_LOCAL_DATE)
 
-
                     Log.w("OPEN DAY", "%s".format(requestedDate))
 
                     val subjectsForRequestedDay = it[requestedDate] ?: emptyList()
@@ -58,7 +63,9 @@ class TodayFragment : Fragment() {
                         binding.noData.visibility = View.VISIBLE
                         binding.noData.text = "%s %s".format(
                             getString(R.string.noData), requestedDate.format(
-                            DateTimeFormatter.ISO_LOCAL_DATE))
+                                DateTimeFormatter.ISO_LOCAL_DATE
+                            )
+                        )
                     } else {
                         binding.noData.visibility = View.GONE
                         binding.noData.text = ""
@@ -73,6 +80,9 @@ class TodayFragment : Fragment() {
         return root
     }
 
+    /**
+     * Called when the view is destroyed.
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

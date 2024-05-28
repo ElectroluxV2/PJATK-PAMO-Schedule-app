@@ -19,11 +19,19 @@ import pl.edu.pjwstk.pamo.schedule.ui.AppViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+/**
+ * Main activity of the application.
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     val viewModel: AppViewModel by viewModels()
 
+    /**
+     * Called when the activity is starting.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle).
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,7 +45,6 @@ class MainActivity : AppCompatActivity() {
 
         navView.setupWithNavController(navController)
 
-
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 loadData()
@@ -45,6 +52,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Loads the subjects data from SharedPreferences and sets it in the ViewModel.
+     */
     public fun loadData() {
         val format = DateTimeFormatter.ISO_LOCAL_DATE
         val sp = applicationContext.getSharedPreferences("pjpl_events", Context.MODE_PRIVATE)

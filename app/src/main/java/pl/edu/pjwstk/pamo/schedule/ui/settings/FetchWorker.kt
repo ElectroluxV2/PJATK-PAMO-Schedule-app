@@ -19,7 +19,12 @@ import java.time.format.DateTimeFormatter
 import java.util.stream.Collectors
 import kotlin.time.measureTime
 
-
+/**
+ * A Worker that fetches and scrapes schedule data for a specified date range.
+ *
+ * @param context The application context.
+ * @param params The parameters for the Worker.
+ */
 class FetchWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
 
     companion object {
@@ -27,6 +32,11 @@ class FetchWorker(context: Context, params: WorkerParameters) : Worker(context, 
         val running = MutableLiveData(false)
     }
 
+    /**
+     * The method that runs in the background to fetch and scrape the schedule data.
+     *
+     * @return The result of the work, indicating success or failure.
+     */
     override fun doWork(): Result {
         running.postValue(true)
         val from = inputData.getString("from")!!
@@ -66,7 +76,6 @@ class FetchWorker(context: Context, params: WorkerParameters) : Worker(context, 
             val innerEntry = "Loaded %d subjects in %d seconds for date %s".format(mapped.size, elapsed.inWholeSeconds, date)
 
             logs.postValue(logs.value!!.plus(innerEntry))
-
 
             Log.i("FetchWorker", innerEntry)
             date = date.plusDays(1)
