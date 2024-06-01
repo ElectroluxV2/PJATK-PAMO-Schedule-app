@@ -1,4 +1,4 @@
-PJATK-PAMO-Schedule-app 
+# PJPL - Mobile schedule made by idiots for idiots
 
 |            |            |            |
 |------------|------------|------------|
