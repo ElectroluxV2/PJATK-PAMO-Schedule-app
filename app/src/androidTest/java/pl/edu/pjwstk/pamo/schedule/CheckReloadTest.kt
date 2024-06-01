@@ -23,7 +23,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 /**
- * [CheckReloadTest] verifies the functionality of the settings view and the reload data button.
+ * [ReloadTest] verifies the functionality of the settings view and the reload data button.
  *
  * The test performs the following steps:
  * 1. Clicks on the settings icon in the bottom navigation bar to open the settings view.
@@ -40,7 +40,7 @@ class CheckReloadTest {
     var mActivityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Test
-    fun mainActivityTest2() {
+    fun ReloadTest() {
         val bottomNavigationItemView = onView(
             allOf(
                 withId(R.id.navigation_settings), withContentDescription("Settings"),
