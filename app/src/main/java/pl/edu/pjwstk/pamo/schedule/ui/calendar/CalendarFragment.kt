@@ -54,7 +54,7 @@ class CalendarFragment : Fragment() {
         val daysOfWeek = daysOfWeek()
         binding.legendLayout.root.children.forEachIndexed { index, child ->
             (child as TextView).apply {
-                text = daysOfWeek[index].name.first().toString()
+                text = daysOfWeek[(index + 1) % 7].name.first().toString()
                 setTextColor(resources.getColor(R.color.white, null))
             }
         }
@@ -64,7 +64,7 @@ class CalendarFragment : Fragment() {
         binding.calendarView.setup(
             currentMonth.minusMonths(12),
             YearMonth.now().plusMonths(24),
-            daysOfWeek.first(),
+            daysOfWeek[1],
         )
         binding.calendarView.scrollToMonth(currentMonth)
         collectViewModelData()
