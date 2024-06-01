@@ -125,11 +125,11 @@ class CalendarFragment : Fragment() {
                     textView.visibility = View.VISIBLE
                     when (data.date) {
                         today -> {
-                            textView.setTextColor(resources.getColor(R.color.red, null))
+                            textView.setTextColor(resources.getColor(R.color.detailLabel, null))
                             textView.setBackgroundResource(R.drawable.selected_bg)
                         }
                         else -> {
-                            textView.setTextColor(resources.getColor(R.color.detailLabel, null))
+                            textView.setTextColor(resources.getColor(com.google.android.material.R.color.material_dynamic_secondary70, null))
                             textView.background = null
                             if (datesToHighlight.contains(data.date)) {
                                 textView.setBackgroundResource(R.drawable.selected_lecturers_day_bg) // Assuming you have a drawable for highlighted dates
