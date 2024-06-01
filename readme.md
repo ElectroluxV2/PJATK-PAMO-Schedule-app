@@ -21,6 +21,9 @@ Features
     Search Functionality: Enables users to quickly find subjects by course name, instructor
     Filtering Options: Offers filtering options to organize subjects by course, date, or other attributes for better management.
 
+Monkey tests
+https://github.com/ElectroluxV2/PJATK-PAMO-Schedule-app/assets/29741129/247f560d-d6b1-4b87-bbbb-5c671adfc306
+
 Getting Started
 Prerequisites
 
