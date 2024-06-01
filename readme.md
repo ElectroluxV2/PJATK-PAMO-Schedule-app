@@ -1,5 +1,12 @@
 PJATK-PAMO-Schedule-app 
 
+|            |            |            |
+|------------|------------|------------|
+| ![](0.png) | ![](5.png) | ![](8.png) |
+| ![](3.png) | ![](1.png) | ![](6.png) |
+| ![](7.png) | ![](4.png) | ![](2.png) |
+
+
 Welcome to PJATK Student Scheduler, your go-to Android app for managing your academic schedule at PJATK (Polish-Japanese Academy of Information Technology). This app allows you to seamlessly view, organize, and track your subjects and classes, ensuring you never miss a lecture or assignment deadline again.
 Features
 1. Automatic Data Retrieval
@@ -22,6 +29,8 @@ Features
     Filtering Options: Offers filtering options to organize subjects by course, date, or other attributes for better management.
 
 Monkey tests
+
+
 https://github.com/ElectroluxV2/PJATK-PAMO-Schedule-app/assets/29741129/247f560d-d6b1-4b87-bbbb-5c671adfc306
 
 Getting Started
