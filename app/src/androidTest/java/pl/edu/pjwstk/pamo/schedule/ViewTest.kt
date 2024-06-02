@@ -1,17 +1,19 @@
 package pl.edu.pjwstk.pamo.schedule
 
+
 import android.os.SystemClock
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -20,6 +22,8 @@ import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.containsString
+import org.hamcrest.Matchers.`is`
 import org.hamcrest.TypeSafeMatcher
 import org.hamcrest.core.IsInstanceOf
 import org.junit.Rule
@@ -30,26 +34,141 @@ import java.util.Calendar
 import java.util.Locale
 
 /**
- * [LoadedDataTest] verifies the functionality of the settings view and data loading process in the application.
+ * [CalendarViewTest] verifies the functionality of the calendar view in the application when there are no data entries.
  *
  * The test performs the following steps:
- * 1. Clicks on the settings icon in the bottom navigation bar to open the settings view.
- * 2. Sets the date to one day ahead of the current date in the `TextInputEditText`.
- * 3. Clicks on the "Reload data" button.
- * 4. Waits for 5 seconds to allow the data reload process to start.
- * 5. Verifies that the logs contain the message "Created scrapper".
- * 6. Waits for an additional 12 seconds for the data loading process to complete.
- * 7. Verifies that the logs contain the message "Done scrapping".
- * 8. Clicks on the "Today" icon in the bottom navigation bar.
- * 9. Verifies that the recycler view is displayed.
+ * 1. Clicks on the calendar icon in the bottom navigation bar to open the calendar view.
+ * 2. Selects the date "1" in the calendar.
+ * 3. Checks if the text view displays a message containing "01", indicating that there is no data available for the selected date.
  */
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class LoadedDataTest {
+class ViewTest {
 
     @Rule
     @JvmField
     var mActivityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
+
+    @Test
+    fun calendarViewTest() {
+        val bottomNavigationItemView = onView(
+            allOf(
+                withId(R.id.navigation_calendar), withContentDescription("Calendar"),
+                childAtPosition(
+                    childAtPosition(
+                        withId(R.id.nav_view),
+                        0
+                    ),
+                    0
+                ),
+                isDisplayed()
+            )
+        )
+        bottomNavigationItemView.perform(click())
+
+        val materialTextView = onView(
+            allOf(
+                withId(R.id.exTwoDayText), withText("1"),
+                childAtPosition(
+                    childAtPosition(
+                        withClassName(`is`("android.widget.LinearLayout")),
+                        1
+                    ),
+                    5
+                ),
+                isDisplayed()
+            )
+        )
+        materialTextView.perform(click())
+
+        val bottomNavigationItemView2 = onView(
+            allOf(
+                withId(R.id.navigation_calendar), withContentDescription("Calendar"),
+                childAtPosition(
+                    childAtPosition(
+                        withId(R.id.nav_view),
+                        0
+                    ),
+                    0
+                ),
+                isDisplayed()
+            )
+        )
+        bottomNavigationItemView2.perform(click())
+
+        val materialTextView2 = onView(
+            allOf(
+                withId(R.id.exTwoDayText), withText("1"),
+                childAtPosition(
+                    childAtPosition(
+                        withClassName(`is`("android.widget.LinearLayout")),
+                        1
+                    ),
+                    5
+                ),
+                isDisplayed()
+            )
+        )
+        materialTextView2.perform(click())
+
+        val textView = onView(
+            allOf(
+                withId(R.id.noData),
+                isDisplayed()
+            )
+        )
+        textView.check(matches(withText(containsString("01")))) // Check if contains 01 after clicked 1 on calendar
+    }
+    @Test
+    fun ReloadTest() {
+        val bottomNavigationItemView = onView(
+            allOf(
+                withId(R.id.navigation_settings), withContentDescription("Settings"),
+                childAtPosition(
+                    childAtPosition(
+                        withId(R.id.nav_view),
+                        0
+                    ),
+                    2
+                ),
+                isDisplayed()
+            )
+        )
+        bottomNavigationItemView.perform(click())
+
+        val button = onView(
+            allOf(
+                withId(R.id.loadButton), withText("Reload data"),
+                ViewMatchers.withParent(ViewMatchers.withParent(withId(R.id.nav_host_fragment_activity_main))),
+                isDisplayed()
+            )
+        )
+        button.check(matches(isDisplayed()))
+
+        val materialButton = onView(
+            allOf(
+                withId(R.id.loadButton), withText("Reload data"),
+                childAtPosition(
+                    childAtPosition(
+                        withId(R.id.nav_host_fragment_activity_main),
+                        0
+                    ),
+                    5
+                ),
+                isDisplayed()
+            )
+        )
+        materialButton.perform(click())
+
+        val textView = onView(
+            allOf(
+                withId(R.id.logs),
+                ViewMatchers.withParent(ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java))),
+                isDisplayed()
+            )
+        )
+        textView.check(matches(isDisplayed()))
+    }
 
     @Test
     fun loadedDataTest() {
@@ -88,7 +207,7 @@ class LoadedDataTest {
                 isDisplayed()
             )
         )
-        textInputEditText.perform(replaceText(nextDate))
+        textInputEditText.perform(ViewActions.replaceText(nextDate))
 
 
         // Click on the "Reload data" button
@@ -111,7 +230,7 @@ class LoadedDataTest {
         val textView = onView(
             allOf(
                 withId(R.id.logs),
-                withParent(withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java))),
+                ViewMatchers.withParent(ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java))),
                 isDisplayed()
             )
         )
@@ -124,7 +243,7 @@ class LoadedDataTest {
         val textView2 = onView(
             allOf(
                 withId(R.id.logs),
-                withParent(withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout::class.java))),
+                ViewMatchers.withParent(ViewMatchers.withParent(IsInstanceOf.instanceOf(LinearLayout::class.java))),
                 isDisplayed()
             )
         )
@@ -153,13 +272,12 @@ class LoadedDataTest {
         val recyclerView = onView(
             allOf(
                 withId(R.id.subjects_recycler_view),
-                withParent(withParent(withId(R.id.nav_host_fragment_activity_main))),
+                ViewMatchers.withParent(ViewMatchers.withParent(withId(R.id.nav_host_fragment_activity_main))),
                 isDisplayed()
             )
         )
         recyclerView.check(matches(isDisplayed()))
     }
-
     private fun childAtPosition(
         parentMatcher: Matcher<View>, position: Int
     ): Matcher<View> {
@@ -178,5 +296,3 @@ class LoadedDataTest {
         }
     }
 }
-
-
