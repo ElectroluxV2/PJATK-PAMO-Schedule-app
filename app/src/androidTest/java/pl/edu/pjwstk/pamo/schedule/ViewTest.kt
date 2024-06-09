@@ -1,6 +1,5 @@
 package pl.edu.pjwstk.pamo.schedule
 
-
 import android.os.SystemClock
 import android.view.View
 import android.view.ViewGroup
@@ -34,12 +33,7 @@ import java.util.Calendar
 import java.util.Locale
 
 /**
- * [CalendarViewTest] verifies the functionality of the calendar view in the application when there are no data entries.
- *
- * The test performs the following steps:
- * 1. Clicks on the calendar icon in the bottom navigation bar to open the calendar view.
- * 2. Selects the date "1" in the calendar.
- * 3. Checks if the text view displays a message containing "01", indicating that there is no data available for the selected date.
+ * [ViewTest] verifies the functionality of various views in the application, such as the calendar view, settings, and data loading.
  */
 @LargeTest
 @RunWith(AndroidJUnit4::class)
@@ -49,6 +43,14 @@ class ViewTest {
     @JvmField
     var mActivityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
+    /**
+     * Verifies the functionality of the calendar view in the application.
+     *
+     * This test performs the following steps:
+     * 1. Clicks on the calendar icon in the bottom navigation bar to open the calendar view.
+     * 2. Selects the date "1" in the calendar.
+     * 3. Checks if the text view displays a message containing "01", indicating that there is no data available for the selected date.
+     */
     @Test
     fun calendarViewTest() {
         val bottomNavigationItemView = onView(
@@ -119,8 +121,18 @@ class ViewTest {
         )
         textView.check(matches(withText(containsString("01")))) // Check if contains 01 after clicked 1 on calendar
     }
+
+    /**
+     * Verifies the functionality of the reload button in the settings.
+     *
+     * This test performs the following steps:
+     * 1. Clicks on the settings icon in the bottom navigation bar to open the settings view.
+     * 2. Checks if the "Reload data" button is displayed.
+     * 3. Clicks on the "Reload data" button.
+     * 4. Checks if the logs text view is displayed.
+     */
     @Test
-    fun ReloadTest() {
+    fun reloadTest() {
         val bottomNavigationItemView = onView(
             allOf(
                 withId(R.id.navigation_settings), withContentDescription("Settings"),
@@ -170,6 +182,17 @@ class ViewTest {
         textView.check(matches(isDisplayed()))
     }
 
+    /**
+     * Verifies that the data loading and scrapping functionality works correctly.
+     *
+     * This test performs the following steps:
+     * 1. Clicks on the settings icon in the bottom navigation bar to open the settings view.
+     * 2. Sets the date input to the next day.
+     * 3. Clicks on the "Reload data" button.
+     * 4. Checks if the logs text view displays the messages indicating the start and completion of data scrapping.
+     * 5. Clicks on the "Today" icon in the bottom navigation bar.
+     * 6. Checks if the recycler view is displayed.
+     */
     @Test
     fun loadedDataTest() {
         // Click on the settings icon in the bottom navigation bar
@@ -209,7 +232,6 @@ class ViewTest {
         )
         textInputEditText.perform(ViewActions.replaceText(nextDate))
 
-
         // Click on the "Reload data" button
         val materialButton = onView(
             allOf(
@@ -226,6 +248,7 @@ class ViewTest {
         )
         materialButton.perform(click())
         SystemClock.sleep(5000)
+
         // Check if the text view displays a message containing "Created scrapper"
         val textView = onView(
             allOf(
@@ -249,7 +272,6 @@ class ViewTest {
         )
         textView2.check(matches(withText(Matchers.containsString("Done scrapping"))))
 
-
         // Click on the "Today" icon in the bottom navigation bar
         val bottomNavigationItemView2 = onView(
             allOf(
@@ -266,8 +288,6 @@ class ViewTest {
         )
         bottomNavigationItemView2.perform(click())
 
-
-
         // Check if the recycler view is displayed
         val recyclerView = onView(
             allOf(
@@ -278,6 +298,14 @@ class ViewTest {
         )
         recyclerView.check(matches(isDisplayed()))
     }
+
+    /**
+     * Returns a matcher that matches a child view at the given position within a parent view.
+     *
+     * @param parentMatcher the matcher of the parent view
+     * @param position the position of the child view within the parent view
+     * @return a matcher that matches the child view at the given position within the parent view
+     */
     private fun childAtPosition(
         parentMatcher: Matcher<View>, position: Int
     ): Matcher<View> {
